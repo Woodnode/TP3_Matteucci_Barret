@@ -17,6 +17,27 @@ type Query {
       "Filters by name. Accepts SQL LIKE wildcards `%` and `_`."
       name: String @where(operator: "like")
     ): [User!]! @paginate(defaultCount: 10)
+
+    "Find a single film by its ID."
+    film(
+      "Search by primary key."
+      id: ID! @eq
+    ): Film @find
+
+    "Search films by title, description, release_year (include) or length (between min and max)."
+    films(
+      "Filters by title and/or description. (Source: https://lighthouse-php.com/master/eloquent/complex-where-conditions.html#usage)"
+       where: _ @whereConditions(columns: ["title", "description"])
+
+      "Filters by release year."
+      release_year: Int @where
+
+      "Minimum length of the film."
+      min_length: Int @where(key: "length", operator: ">=")
+
+      "Maximum length of the film."
+      max_length: Int @where(key: "length", operator: "<=")
+    ): [Film!]! @paginate(defaultCount: 10)
 }
 
 "Account of a person who uses this application."
