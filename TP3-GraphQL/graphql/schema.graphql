@@ -186,3 +186,16 @@ type FilmStatistic {
     "Average score from external reviews for the film."
     external_average_score: Float!
 }
+
+type Mutation {
+createCritic(
+    "Comment of the critic review."
+    comment: String! @rules(apply: ["min:10", "max:500"])
+
+    "Score given by the user."
+    score: Float! @rules(apply: ["min:0", "max:10"])
+
+    "ID of the film being reviewed."
+    film_id: ID! @rules(apply: ["exists:films,id"])
+  ): FilmStatistic @guard @create @inject(context: "user.id", name: "user_id")
+}
