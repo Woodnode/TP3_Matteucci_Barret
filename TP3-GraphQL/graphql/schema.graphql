@@ -24,18 +24,120 @@ type User {
     "Unique primary key."
     id: ID!
 
-    "Non-unique name."
-    name: String!
+    "Username of the user."
+    login: String!
 
-    "Unique email address."
+    "Password of the user."
+    password: String!
+
+    "Email address of the user."
     email: String!
 
-    "When the email was verified."
-    email_verified_at: DateTime
+    "Last name of the user."
+    last_name: String!
 
-    "When the account was created."
-    created_at: DateTime!
+    "First name of the user."
+    first_name: String!
 
-    "When the account was last updated."
-    updated_at: DateTime!
+    "Role of the user."
+    role: Role! @belongsTo
+
+    "Critics written by the user."
+    critics: [Critic!]! @hasMany
+}
+
+"Role entity representing the role of a user."
+type Role {
+    "Unique primary key."
+    id: ID!
+
+    "Name of the role."
+    name: String!
+
+    "Users with this role."
+    users: [User!]! @hasMany
+}
+
+"Film entity representing a movie."
+type Film {
+    "Unique primary key."
+    id: ID!
+
+    "Title of the film."
+    title: String!
+
+    "Release year of the film."
+    release_year: Int!
+
+    "Length of the film in minutes."
+    length: Int!
+
+    "Description of the film."
+    description: String!
+
+    "Rating of the film."
+    rating: Float!
+
+    "Special features of the film."
+    special_features: String!
+
+    "Image URL of the film."
+    image: String!
+
+    "Language of the film."
+    language: Language! @belongsTo
+
+    "Critics of the film."
+    critics: [Critic!]! @hasMany
+
+    "Actors in the film."
+    actors: [Actor!]! @belongsToMany
+}
+
+"Language entity representing the language of films."
+type Language {
+    "Unique primary key."
+    id: ID!
+
+    "Name of the language."
+    name: String!
+
+    "Films in this language."
+    films: [Film!]! @hasMany
+}
+
+"Critic entity representing a review of a film."
+type Critic {
+    "Unique primary key."
+    id: ID!
+
+    "Comment of the critic review."
+    comment: String!
+
+    "Score given by the user."
+    score: Float!
+
+    "Film being reviewed."
+    film: Film! @belongsTo
+
+    "User who wrote the critic."
+    user: User! @belongsTo
+}
+
+"Actor entity representing an actor in films."
+type Actor {
+    "Unique primary key."
+    id: ID!
+
+    "Last name of the actor."
+    last_name: String!
+
+    "First name of the actor."
+    first_name: String!
+
+    "Birthdate of the actor."
+    birthdate: DateTime!
+
+    "Films the actor has appeared in."
+    films: [Film!]! @belongsToMany
 }

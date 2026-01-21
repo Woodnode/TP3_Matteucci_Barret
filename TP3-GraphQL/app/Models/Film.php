@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 
 class Film extends Model
@@ -12,7 +15,7 @@ class Film extends Model
 
     protected $fillable =
     [
-        'title', 
+        'title',
         'release_year',
         'length',
         'description',
@@ -22,18 +25,18 @@ class Film extends Model
         'image'
     ];
 
-    public function language() 
+    public function language() : BelongsTo
     {
         return $this->belongsTo('App\Models\Language');
     }
 
 
-    public function critics() 
+    public function critics() : HasMany
     {
         return $this->hasMany('App\Models\Critic');
     }
-    
-    public function actors() 
+
+    public function actors() : BelongsToMany
     {
         return $this->belongsToMany('App\Models\Actor');
     }
