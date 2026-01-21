@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 
 class Film extends Model
@@ -39,5 +40,10 @@ class Film extends Model
     public function actors() : BelongsToMany
     {
         return $this->belongsToMany('App\Models\Actor');
+    }
+
+    public function filmStatistics() : HasOne
+    {
+        return $this->hasOne('App\Models\FilmStatistic');
     }
 }

@@ -113,6 +113,9 @@ type Film {
 
     "Actors in the film."
     actors: [Actor!]! @belongsToMany
+
+    "Statistics of the film."
+    filmStatistic: FilmStatistic @hasOne
 }
 
 "Language entity representing the language of films."
@@ -161,4 +164,25 @@ type Actor {
 
     "Films the actor has appeared in."
     films: [Film!]! @belongsToMany
+}
+
+"Statistics about a film based on its critics."
+type FilmStatistic {
+    "Unique primary key."
+    id: ID!
+
+    "Film ID the statistics are for."
+    film: Film! @belongsTo
+
+    "Total number of reviews for the film."
+    total_reviews: Int!
+
+    "Average score from all reviews for the film."
+    average_score: Float!
+
+    "Total number of external reviews for the film."
+    external_reviews: Int!
+
+    "Average score from external reviews for the film."
+    external_average_score: Float!
 }
