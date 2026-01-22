@@ -197,5 +197,5 @@ createCritic(
 
     "ID of the film being reviewed."
     film_id: ID! @rules(apply: ["exists:films,id"])
-  ): FilmStatistic @guard @create @inject(context: "user.id", name: "user_id")
+  ): FilmStatistic @guard @inject(context: "user.id", name: "user_id")
 }
