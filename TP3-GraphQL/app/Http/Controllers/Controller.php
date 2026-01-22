@@ -21,10 +21,6 @@ define('SERVER_ERROR', 500);
 //Pagination
 define('SEARCH_PAGINATION', 20);
 
-//Roles
-define('USER', 2);
-define('ADMIN', 1);
-
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;

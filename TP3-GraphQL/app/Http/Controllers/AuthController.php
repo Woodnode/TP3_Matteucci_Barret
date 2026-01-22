@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Auth\AuthenticationException;
 use App\Http\Requests\RegisterAuthRequest;
 use App\Http\Requests\LoginAuthRequest;
+use App\Enumerations\Roles;
 
 class AuthController extends Controller
 {
