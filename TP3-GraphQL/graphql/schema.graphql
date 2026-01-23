@@ -187,6 +187,15 @@ type FilmStatistic {
     external_average_score: Float!
 }
 
+"Input for updating film images when creating an actor."
+input FilmImageInput {
+    "ID of the film to update."
+    film_id: ID! @rules(apply: ["exists:films,id"])
+    
+    "New image URL for the film."
+    image_url: String! @rules(apply: ["required", "url"])
+}
+
 type Mutation {
 createCritic(
     "Comment of the critic review."
@@ -198,4 +207,21 @@ createCritic(
     "ID of the film being reviewed."
     film_id: ID! @rules(apply: ["exists:films,id"])
   ): FilmStatistic @guard @inject(context: "user.id", name: "user_id")
+
+createActor(
+    "First name of the actor."
+    first_name: String! @rules(apply: ["required", "string", "min:2", "max:50"])
+
+    "Last name of the actor."
+    last_name: String! @rules(apply: ["required", "string", "min:2", "max:50"])
+
+    "Birthdate of the actor."
+    birthdate: DateTime! @rules(apply: ["required", "date", "before:today"])
+
+    "IDs of films to associate with the actor."
+    films: [ID!]! @rules(apply: ["required", "array", "min:1"])
+
+    "Optional: Update images for specific films."
+    film_images: [FilmImageInput!] 
+): Actor @guard @can(ability: "create")
 }

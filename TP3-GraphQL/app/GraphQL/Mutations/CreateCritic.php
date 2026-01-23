@@ -4,8 +4,6 @@ namespace App\GraphQL\Mutations;
 
 use App\Models\Critic;
 use App\Models\FilmStatistic;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 
 final readonly class CreateCritic
 {
