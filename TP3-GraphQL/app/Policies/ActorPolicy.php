@@ -29,7 +29,7 @@ class ActorPolicy
      */
     public function create(User $user): bool
     {
-        return $user->role && $user->role->name === 'admin';
+        return $user->role && $user->role->name === 'ADMIN';
     }
 
     /**

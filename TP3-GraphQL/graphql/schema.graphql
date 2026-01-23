@@ -241,5 +241,3 @@ createActor(
     input: CreateActorInput! @spread
 ): Actor @guard @can(ability: "create", model: "Actor")
 }
-
-
