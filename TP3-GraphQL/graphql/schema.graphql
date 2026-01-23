@@ -38,6 +38,12 @@ type Query {
       "Maximum length of the film."
       max_length: Int @where(key: "length", operator: "<=")
     ): [Film!]! @paginate(defaultCount: 10)
+
+    "Show information about the currently authenticated user."
+    me: User @guard @auth
+
+    "Show critics written by the currently authenticated user."
+    myCritics: [Critic!]! @guard @field(resolver: "MyCritics")
 }
 
 "Account of a person who uses this application."
@@ -187,8 +193,7 @@ type FilmStatistic {
     external_average_score: Float!
 }
 
-type Mutation {
-createCritic(
+input CreateCriticInput {
     "Comment of the critic review."
     comment: String! @rules(apply: ["min:10", "max:500"])
 
@@ -197,5 +202,30 @@ createCritic(
 
     "ID of the film being reviewed."
     film_id: ID! @rules(apply: ["exists:films,id"])
-  ): FilmStatistic @guard @inject(context: "user.id", name: "user_id")
 }
+
+input CreateActorInput {
+    "Last name of the actor."
+    last_name: String! @rules(apply: ["min:2", "max:50"])
+
+    "First name of the actor."
+    first_name: String! @rules(apply: ["min:2", "max:50"])
+
+    "Birthdate of the actor."
+    birthdate: DateTime! @rules(apply: ["date"])
+
+    "ID of the film the actor has appeared in."
+    films : [ID!]! @rules(apply: ["exists:films,id"])
+}
+
+type Mutation {
+createCritic(
+    input: CreateCriticInput! @spread
+  ): FilmStatistic @guard @inject(context: "user.id", name: "user_id")
+
+createActor(
+    input: CreateActorInput! @spread
+): Actor @guard @can(ability: "create", model: "Actor")
+}
+
+
