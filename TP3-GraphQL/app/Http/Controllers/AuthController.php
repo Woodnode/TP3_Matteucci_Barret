@@ -20,7 +20,7 @@ class AuthController extends Controller
         {
             $validatedData = $request->validated();
             $validatedData['password'] = bcrypt($validatedData['password']);
-            $validatedData['role_id'] = USER; // Role user par défaut.
+            $validatedData['role_id'] = Roles::USER; // Role user par défaut.
 
             $user = User::create($validatedData);
 

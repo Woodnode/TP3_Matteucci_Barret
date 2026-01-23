@@ -1,6 +1,9 @@
 "A datetime string with format `Y-m-d H:i:s`, e.g. `2018-05-23 13:43:32`."
 scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\DateTime")
 
+"A date string with format `Y-m-d`, e.g. `2011-05-23`."
+scalar Date @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date")
+
 "Indicates what fields are available at the top level of a query operation."
 type Query {
     "Find a single user by an identifying attribute."
@@ -122,6 +125,9 @@ type Film {
 
     "Statistics of the film."
     filmStatistic: FilmStatistic @hasOne
+
+    "Creation date of the film record."
+    created_at: DateTime!
 }
 
 "Language entity representing the language of films."
@@ -166,7 +172,7 @@ type Actor {
     first_name: String!
 
     "Birthdate of the actor."
-    birthdate: DateTime!
+    birthdate: Date!
 
     "Films the actor has appeared in."
     films: [Film!]! @belongsToMany
@@ -212,10 +218,18 @@ input CreateActorInput {
     first_name: String! @rules(apply: ["min:2", "max:50"])
 
     "Birthdate of the actor."
-    birthdate: DateTime! @rules(apply: ["date"])
+    birthdate: Date! @rules(apply: ["date"])
 
     "ID of the film the actor has appeared in."
     films : [ID!]! @rules(apply: ["exists:films,id"])
+
+    "Images to update for specific films."
+    film_images: [FilmImageInput!]
+}
+
+input FilmImageInput {
+    film_id: ID! @rules(apply: ["exists:films,id"])
+    image_url: String! @rules(apply: ["url"])
 }
 
 type Mutation {
