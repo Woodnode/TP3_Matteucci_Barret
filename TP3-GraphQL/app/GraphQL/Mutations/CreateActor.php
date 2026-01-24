@@ -12,7 +12,7 @@ final readonly class CreateActor
         $actor = Actor::create([
             'first_name' => $args['first_name'],
             'last_name' => $args['last_name'],
-            'birthdate' => $args['birthdate'],
+            'birthdate' => $args['birthdate']->format('Y-m-d'),
         ]);
 
         $actor->films()->attach($args['films']);

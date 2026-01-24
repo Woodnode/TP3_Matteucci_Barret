@@ -11,14 +11,18 @@ class Actor extends Model
     use HasFactory;
 
     protected $fillable =
-    [
-        'last_name',
-        'first_name',
-        'birthdate'
+        [
+            'last_name',
+            'first_name',
+            'birthdate'
 
-    ];
+        ];
 
-    public function films() : BelongsToMany
+    protected $casts = [
+    'birthdate' => 'date:Y-m-d',
+];
+
+    public function films(): BelongsToMany
     {
         return $this->belongsToMany('App\Models\Film');
     }

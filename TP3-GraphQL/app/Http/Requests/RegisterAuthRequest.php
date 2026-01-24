@@ -4,8 +4,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Validation\Rule;
 
 class RegisterAuthRequest extends FormRequest
 {
@@ -29,13 +27,9 @@ class RegisterAuthRequest extends FormRequest
      */
     public function rules(): array
     {
-        if ($this->input('password') !== $this->input('password_confirmation'))
-        {
-            throw new ValidationException('The password confirmation does not match.');
-        }
         return [
             'login' => 'required|string|unique:users,login',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string|min:8|confirmed',
             'email' => 'required|string|email|unique:users,email',
             'first_name' => 'required|string',
             'last_name' => 'required|string',
